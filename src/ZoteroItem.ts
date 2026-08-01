@@ -22,6 +22,7 @@ export interface ZoteroRawItem {
         creators?: any[];
         date?: string;
         note?: string;
+        itemType?: string;
     };
 }
 
@@ -65,7 +66,10 @@ export class ZoteroItem {
     }
 
     getVolume() {
-        return this.raw.data.volume || null;
+        if (this.raw.data.itemType == "book") {
+            return this.raw.data.volume || null;
+        }
+        return null
     }
 
     getCreatorSummary() {
