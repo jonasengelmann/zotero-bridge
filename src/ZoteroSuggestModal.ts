@@ -19,7 +19,16 @@ export class ZoteroSuggestModal extends SuggestModal<ZoteroItem> {
 
     renderSuggestion(item: ZoteroItem, el: HTMLElement) {
         const creator = item.getCreatorSummary();
-        el.createEl('div', { text: item.getTitle() });
+        const volume = item.getVolume();
+
+        const titleEl = el.createEl('div', { text: item.getTitle() });
+
+        if (volume) {
+            titleEl.createEl('span', {
+                text: ` (Volume: ${volume})`,
+                cls: 'zotero-bridge__text-secondary'
+            });
+        }
 
         // author
         if (creator) {

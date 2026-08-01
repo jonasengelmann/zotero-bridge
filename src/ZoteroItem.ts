@@ -18,6 +18,7 @@ export interface ZoteroRawItem {
         key: string;
         title?: string;
         shortTitle?: string;
+        volume?: string;
         creators?: any[];
         date?: string;
         note?: string;
@@ -61,6 +62,10 @@ export class ZoteroItem {
 
     getShortTitle() {
         return this.raw.data.shortTitle;
+    }
+
+    getVolume() {
+        return this.raw.data.volume || null;
     }
 
     getCreatorSummary() {
@@ -176,6 +181,7 @@ export class ZoteroItem {
             libraryUri: this.getLibraryUri(),
             title: this.getTitle(),
             shortTitle: this.getShortTitle(),
+            volume: this.getVolume(),
             date: this.getDate(),
             authors: this.getAuthors(),
             firstAuthor: this.getAuthor(),
