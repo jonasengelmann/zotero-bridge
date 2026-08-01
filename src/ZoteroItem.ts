@@ -2,11 +2,18 @@ export interface ZoteroRawItem {
     library?: {
         type?: string;
         id?: number;
-    };
-    meta?: {
+    };    
+    meta: {
         creatorSummary?: string;
         parsedDate?: string;
     };
+    links?: {
+        attachment?: {
+            href: string;
+            attachmentType: string;
+            filepath: string;
+        }
+    }
     data: {
         key: string;
         title?: string;
@@ -101,6 +108,20 @@ export class ZoteroItem {
         return noDate;
     }
 
+    getPdfAttachmentId() {
+        if (this.raw.links.attachment && this.raw.links.attachment.attachmentType == "application/pdf") {
+            return this.raw.links.attachment.href.split('/').pop()
+        }
+        return null
+    }
+
+    getPdfFilepath() {
+        if (this.raw.links.attachment && this.raw.links.attachment.attachmentType == "application/pdf") {
+            return this.raw.links.attachment.filepath.replace('file://', '')
+        }
+        return null
+    }
+
     normalizeName(creator: any) {
         const names = {
             firstName: creator.firstName,
@@ -159,6 +180,8 @@ export class ZoteroItem {
             authors: this.getAuthors(),
             firstAuthor: this.getAuthor(),
             creatorSummary: this.getCreatorSummary(),
+            pdfAttachmentId: this.getPdfAttachmentId(),
+            getPdfFilepath: this.getPdfFilepath(),
         };
     }
 }

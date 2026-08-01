@@ -66,6 +66,7 @@ export interface ZoteroAdapter {
     get baseUrl(): string;
     search(query: string): Promise<ZoteroItem[]>;
     items(parameters: ZoteroItemsRequestParameters): Promise<ZoteroItem[]>;
+    getAttachment(item: ZoteroItem): Promise<ZoteroItem>;
 }
 
 /**
@@ -104,6 +105,34 @@ export class LocalAPIV3Adapter implements ZoteroAdapter {
             .catch(() => {
                 new Notice(`Couldn't connect to Zotero, please check the app is open and Zotero Local API is enabled`);
                 return [];
+            });
+    }
+
+    getAttachment(item: ZoteroItem): Promise<ZoteroItem> {
+        const anyItem = item as any;
+
+        if (!anyItem.raw.links?.attachment || !anyItem.raw.links.attachment.href) {
+            return Promise.resolve(item);
+        }
+
+        const targetAttachment = anyItem.raw.links.attachment;
+
+        return request({
+            url: targetAttachment.href,
+            method: 'get',
+            contentType: 'application/json',
+        })
+            .then(JSON.parse)
+            .then((attachmentItem: any) => {                
+                if (attachmentItem.links?.enclosure?.href) {
+                    targetAttachment.filepath = attachmentItem.links.enclosure.href;
+                }
+                return item;
+
+            })
+            .catch(() => {
+                new Notice(`Couldn't connect to Zotero to fetch attachment details`);
+                return item;
             });
     }
 }
@@ -146,6 +175,10 @@ export class ZotServerAdapter implements ZoteroAdapter {
                 new Notice(`Couldn't connect to Zotero, please check the app is open and ZotServer is installed`);
                 return [];
             });
+    }
+
+    async getAttachment(item: ZoteroItem): Promise<ZoteroItem> {
+        return item 
     }
 }
 

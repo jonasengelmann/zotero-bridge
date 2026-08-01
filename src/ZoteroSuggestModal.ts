@@ -35,8 +35,9 @@ export class ZoteroSuggestModal extends SuggestModal<ZoteroItem> {
         el.createEl('small', { text: `[${item.getKey()}]`, cls: 'zotero-bridge__text-secondary' });
     }
 
-    onChooseSuggestion(item: ZoteroItem) {
-        this.onSelect(item);
+    async onChooseSuggestion(item: ZoteroItem) {
+        const enrichedItem = await this.adapter.getAttachment(item);
+        this.onSelect(enrichedItem);
     }
 }
 
