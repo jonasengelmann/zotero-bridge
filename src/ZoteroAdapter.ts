@@ -120,10 +120,14 @@ export class LocalAPIV3Adapter implements ZoteroAdapter {
         return request({
             url: targetAttachment.href,
             method: 'get',
-            contentType: 'application/json',
+            headers: {
+                "zotero-allowed-request": "1",
+                "Zotero-API-Version": "3",
+                "Accept": "application/json",
+            },
         })
             .then(JSON.parse)
-            .then((attachmentItem: any) => {                
+            .then((attachmentItem: any) => {                   
                 if (attachmentItem.links?.enclosure?.href) {
                     targetAttachment.filepath = attachmentItem.links.enclosure.href;
                 }
