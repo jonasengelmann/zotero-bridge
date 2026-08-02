@@ -118,15 +118,17 @@ export class ZoteroItem {
     }
 
     getPdfAttachmentId() {
-        if (this.raw.links?.attachment && this.raw.links?.attachment.attachmentType == "application/pdf") {
-            return this.raw.links.attachment.href.split('/').pop()
+        const attachment = this.raw.links?.attachment;
+        if (attachment && attachment.attachmentType == "application/pdf" && attachment.href) {
+            return attachment.href.split('/').pop()
         }
         return null
     }
 
     getPdfFilepath() {
-        if (this.raw.links?.attachment && this.raw.links?.attachment.attachmentType == "application/pdf") {
-            return this.raw.links.attachment.filepath.replace('file://', '')
+        const attachment = this.raw.links?.attachment;
+        if (attachment && attachment.attachmentType == "application/pdf" && attachment.filepath) {
+            return attachment.filepath.replace('file://', '')
         }
         return null
     }

@@ -477,10 +477,13 @@ describe("ZoteroItem", () => {
                 libraryUri: "library",
                 title: "Cultivating Everyday Courage: Short text is here",
                 shortTitle: "Hello people",
+                volume: null,
                 date: { year: 2018, month: 11, day: 1 },
                 authors: [{ firstName: "James R.", lastName: "Detert", fullName: "James R. Detert" }],
                 firstAuthor: { firstName: "James R.", lastName: "Detert", fullName: "James R. Detert" },
                 creatorSummary: "James R. Detert",
+                pdfAttachmentId: null,
+                getPdfFilepath: null,
             });
         });
 
@@ -491,10 +494,13 @@ describe("ZoteroItem", () => {
                 libraryUri: "library",
                 title: "A typology of organisational cultures",
                 shortTitle: undefined, // Explicitly check for undefined
+                volume: null,
                 date: { year: 2001, month: 12, day: 1 },
                 authors: [{ firstName: "R", lastName: "Westrum", fullName: "R Westrum" }],
                 firstAuthor: { firstName: "R", lastName: "Westrum", fullName: "R Westrum" },
                 creatorSummary: "Westrum",
+                pdfAttachmentId: "CRKZWGF4",
+                getPdfFilepath: null,
             });
         });
 
@@ -505,10 +511,13 @@ describe("ZoteroItem", () => {
                 libraryUri: "library",
                 title: "Edsel",
                 shortTitle: undefined,
+                volume: null,
                 date: { year: 2020, month: 12, day: 1 }, // It *does* have a parsable date "1 Dec 2020"
                 authors: [],
                 firstAuthor: undefined,
                 creatorSummary: "", // Fallback because no authors
+                pdfAttachmentId: null,
+                getPdfFilepath: null,
             });
         });
 
@@ -519,10 +528,13 @@ describe("ZoteroItem", () => {
                 libraryUri: "library",
                 title: "[No Title]",
                 shortTitle: undefined,
+                volume: null,
                 date: { year: null, month: null, day: null },
                 authors: [],
                 firstAuthor: undefined,
                 creatorSummary: "",
+                pdfAttachmentId: null,
+                getPdfFilepath: null,
             });
         });
     });
